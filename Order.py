@@ -11,3 +11,6 @@ class Order:
 
     def calculate_total(self):
         return sum(item[2] for item in self.items)
+    
+    def get_total(self):
+        return self.total

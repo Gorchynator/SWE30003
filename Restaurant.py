@@ -44,7 +44,7 @@ class Restaurant:
         return self.c.fetchall()
 
     def add_payment(self, order_id, payment_method):
-        amount = self.orders[order_id].get_total()
+        amount = self.get_order_cost(order_id)
         self.c.execute("INSERT INTO Payments (order_id, amount, payment_method) VALUES (?, ?, ?)",
                   (order_id, amount, payment_method))
         self.conn.commit()
@@ -56,4 +56,4 @@ class Restaurant:
         return reservations
     
     def get_order_cost(self, order_id):
-        return self.orders[order_id].get_total()
+        return self.orders[order_id - 1].get_total()
