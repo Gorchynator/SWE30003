@@ -21,6 +21,9 @@ class RestaurantApp:
         self.view_order_button = ttk.Button(master, text="View Order", command=self.open_view_order_window)
         self.view_order_button.grid(row=2, column=0)
 
+        self.add_payment_button = ttk.Button(master, text="Add Payment", command=self.add_payment)
+        self.add_payment_button.grid(row=3, column=0)
+
         self.create_reservation_button = ttk.Button(master, text="Create Reservation", command=self.create_reservation)
         self.create_reservation_button.grid(row=6, column=3)
 
@@ -207,11 +210,6 @@ class RestaurantApp:
         order_id_entry = tk.Entry(add_payment_window)
         order_id_entry.grid(row=0, column=1)
 
-        amount_label = tk.Label(add_payment_window, text="Amount:")
-        amount_label.grid(row=1, column=0)
-        amount_entry = tk.Entry(add_payment_window)
-        amount_entry.grid(row=1, column=1)
-
         method_label = tk.Label(add_payment_window, text="Payment Method:")
         method_label.grid(row=2, column=0)
         method_entry = tk.Entry(add_payment_window)
@@ -219,10 +217,15 @@ class RestaurantApp:
 
         submit_button = tk.Button(add_payment_window, text="Submit",
                                   command=lambda: self.submit_payment(add_payment_window, order_id_entry.get(),
-                                                                      amount_entry.get(), method_entry.get()))
+                                                                      method_entry.get()))
         submit_button.grid(row=3, columnspan=2)
 
     def submit_payment(self, window, order_id, amount, method):
+        self.restaurant.get_total_cost(order_id)
         self.restaurant.add_payment(int(order_id), float(amount), method)
-        tk.messagebox.showinfo("Payment Added", "Payment added successfully!")
+        if (method.lower() == "card"):
+            message = "Tap card when you're ready"
+        elif (method.lower() == "cash"):
+            message = "Hand owed cash to staff"
+        tk.messagebox.showinfo(message, f"Amound owed is ${amount}")
         window.destroy()
