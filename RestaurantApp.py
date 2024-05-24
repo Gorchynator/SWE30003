@@ -23,9 +23,6 @@ class RestaurantApp:
         self.view_order_button = ttk.Button(master, text="View Order", command=self.open_view_order_window)
         self.view_order_button.grid(row=2, column=0)
 
-        self.add_payment_button = ttk.Button(master, text="Add Payment", command=self.add_payment)
-        self.add_payment_button.grid(row=3, column=0)
-
         self.create_reservation_button = ttk.Button(master, text="Create Reservation", command=self.create_reservation)
         self.create_reservation_button.grid(row=6, column=3)
 
