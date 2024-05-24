@@ -1,5 +1,6 @@
 class Order:
-    def __init__(self, table_number, selected_items):
+    def __init__(self, ident, table_number, selected_items):
+        self.id = ident
         self.table_number = table_number
         self.order_type = 'Dine-in'
         self.status = 'Pending'
@@ -11,6 +12,3 @@ class Order:
 
     def calculate_total(self):
         return sum(item[2] for item in self.items)
-    
-    def get_total(self):
-        return self.total

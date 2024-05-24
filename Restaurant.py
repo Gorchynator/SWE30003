@@ -11,7 +11,8 @@ class Restaurant:
         self.conn = conn
 
     def create_order(self, table_number, order_type):
-        order = Order(table_number, order_type)
+        ident = len(self.orders)
+        order = Order(ident, table_number, order_type)
         self.orders.append(order)
         return order
 
@@ -42,12 +43,6 @@ class Restaurant:
     def get_users(self):
         self.c.execute("SELECT * FROM Users")
         return self.c.fetchall()
-
-    def add_payment(self, order_id, payment_method):
-        amount = self.get_order_cost(order_id)
-        self.c.execute("INSERT INTO Payments (order_id, amount, payment_method) VALUES (?, ?, ?)",
-                  (order_id, amount, payment_method))
-        self.conn.commit()
     
     def get_reservations(self):
         self.c.execute("SELECT * FROM Reservations")
@@ -55,5 +50,11 @@ class Restaurant:
         print("Reservations:", reservations)  # Add this line for debugging
         return reservations
     
+    def add_payment(self, order_id, payment_method):
+        amount = self.get_order_cost(order_id)
+        self.c.execute("INSERT INTO Payments (order_id, amount, payment_method) VALUES (?, ?, ?)",
+                  (order_id, amount, payment_method))
+        self.conn.commit()
+    
     def get_order_cost(self, order_id):
-        return self.orders[order_id - 1].get_total()
+        return self.orders[order_id].total
