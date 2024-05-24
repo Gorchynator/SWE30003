@@ -1,17 +1,13 @@
 class Order:
-    def __init__(self, table_number, order_type):
+    def __init__(self, table_number, selected_items):
         self.table_number = table_number
-        self.order_type = order_type
+        self.order_type = 'Dine-in'
         self.status = 'Pending'
-        self.items = []
-        self.price = 0
+        self.items = selected_items
+        self.total = self.calculate_total()
 
     def add_item(self, item):
         self.items.append(item)
-        self.calculate_total()
 
     def calculate_total(self):
-        self.price = sum(item.price for item in self.items)
-
-    def get_total(self):
-        return self.price
+        return sum(item[2] for item in self.items)
