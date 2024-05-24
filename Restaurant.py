@@ -41,7 +41,8 @@ class Restaurant:
         self.c.execute("SELECT * FROM Users")
         return self.c.fetchall()
 
-    def add_payment(self, order_id, amount, payment_method):
+    def add_payment(self, order_id, payment_method):
+        amount = self.orders[order_id].get_total()
         self.c.execute("INSERT INTO Payments (order_id, amount, payment_method) VALUES (?, ?, ?)",
                   (order_id, amount, payment_method))
         self.conn.commit()
@@ -51,3 +52,6 @@ class Restaurant:
         reservations = self.c.fetchall()
         print("Reservations:", reservations)  # Add this line for debugging
         return reservations
+    
+    def get_order_cost(self, order_id):
+        return self.orders[order_id].get_total()
